@@ -11,7 +11,7 @@ function stop_docker()
 # Ensure current path is project root
 cd "$(dirname "$0")/../"
 
-QDRANT_LATEST="v1.16.2"
+QDRANT_LATEST="v1.17.0"
 QDRANT_VERSION=${QDRANT_VERSION:-"$QDRANT_LATEST"}
 IGNORE_CONGRUENCE_TESTS=${IGNORE_CONGRUENCE_TESTS:-"false"}
 REST_PORT="6333"
@@ -68,6 +68,12 @@ if [[ $PYTEST_EXIT_CODE -ne 0 ]]; then
   exit 1
 fi
 
+echo "Running inference tests without fastembed"
+
+pip3 uninstall fastembed -y
+
+pytest -x tests/test_fastembed.py
+pytest -x tests/embed_tests/test_local_inference.py
 
 echo "Ok, that is enough"
 
