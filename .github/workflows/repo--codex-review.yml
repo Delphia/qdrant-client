@@ -1,0 +1,23 @@
+# Managed by Terraform — do not edit directly.
+# https://github.com/Delphia/tilt-terraform/blob/main/tilt-io-github/github-codex-review.tf
+name: "[Repo] Codex Review"
+
+# Thin caller for the shared Codex PR review workflow. All logic lives in
+# Delphia/workflows; repo-specific review focus is in .github/codex-review-guidance.md
+# (optional — without it the reusable workflow uses its generic review prompt).
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    permissions:
+      contents: read
+      id-token: write
+      issues: read
+      pull-requests: write
+    uses: Delphia/workflows/.github/workflows/codex-review.yml@v1
