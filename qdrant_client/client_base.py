@@ -299,6 +299,23 @@ class QdrantBase:
     ) -> types.UpdateResult:
         raise NotImplementedError()
 
+    def create_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        vector_name_config: types.VectorNameConfig,
+        **kwargs: Any,
+    ) -> types.UpdateResult:
+        raise NotImplementedError()
+
+    def delete_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        **kwargs: Any,
+    ) -> types.UpdateResult:
+        raise NotImplementedError()
+
     def list_snapshots(
         self, collection_name: str, **kwargs: Any
     ) -> list[types.SnapshotDescription]:
@@ -407,4 +424,24 @@ class QdrantBase:
         raise NotImplementedError()
 
     def remove_peer(self, peer_id: int, **kwargs: Any) -> bool:
+        raise NotImplementedError()
+
+    def get_optimizations(
+        self,
+        collection_name: str,
+        **kwargs: Any,
+    ) -> types.OptimizationsResponse:
+        raise NotImplementedError()
+
+    def list_shard_keys(
+        self,
+        collection_name: str,
+        **kwargs: Any,
+    ) -> types.ShardKeysResponse:
+        raise NotImplementedError()
+
+    def cluster_telemetry(
+        self,
+        **kwargs: Any,
+    ) -> types.DistributedTelemetryData:
         raise NotImplementedError()

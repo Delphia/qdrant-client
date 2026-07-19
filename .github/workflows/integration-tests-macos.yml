@@ -25,9 +25,9 @@ jobs:
     name: Python ${{ matrix.python-version }} on ${{ matrix.os }} test
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6.3.0
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies

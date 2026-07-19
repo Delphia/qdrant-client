@@ -65,7 +65,7 @@ class _CollectionsApi:
 
         headers = {}
         return self.api_client.request(
-            type_=m.InlineResponse2006,
+            type_=m.InlineResponse2008,
             method="GET",
             url="/collections/{collection_name}/exists",
             headers=headers if headers else None,
@@ -94,9 +94,48 @@ class _CollectionsApi:
         if "Content-Type" not in headers:
             headers["Content-Type"] = "application/json"
         return self.api_client.request(
-            type_=m.InlineResponse200,
+            type_=m.InlineResponse2001,
             method="PUT",
             url="/collections/{collection_name}",
+            headers=headers if headers else None,
+            path_params=path_params,
+            params=query_params,
+            content=body,
+        )
+
+    def _build_for_create_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        wait: bool = None,
+        ordering: WriteOrdering = None,
+        timeout: int = None,
+        vector_name_config: m.VectorNameConfig = None,
+    ):
+        """
+        Create a new named vector on an existing collection
+        """
+        path_params = {
+            "collection_name": str(collection_name),
+            "vector_name": str(vector_name),
+        }
+
+        query_params = {}
+        if wait is not None:
+            query_params["wait"] = str(wait).lower()
+        if ordering is not None:
+            query_params["ordering"] = str(ordering)
+        if timeout is not None:
+            query_params["timeout"] = str(timeout)
+
+        headers = {}
+        body = jsonable_encoder(vector_name_config)
+        if "Content-Type" not in headers:
+            headers["Content-Type"] = "application/json"
+        return self.api_client.request(
+            type_=m.InlineResponse2007,
+            method="PUT",
+            url="/collections/{collection_name}/vectors/{vector_name}",
             headers=headers if headers else None,
             path_params=path_params,
             params=query_params,
@@ -121,9 +160,43 @@ class _CollectionsApi:
 
         headers = {}
         return self.api_client.request(
-            type_=m.InlineResponse200,
+            type_=m.InlineResponse2001,
             method="DELETE",
             url="/collections/{collection_name}",
+            headers=headers if headers else None,
+            path_params=path_params,
+            params=query_params,
+        )
+
+    def _build_for_delete_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        wait: bool = None,
+        ordering: WriteOrdering = None,
+        timeout: int = None,
+    ):
+        """
+        Delete a named vector from a collection
+        """
+        path_params = {
+            "collection_name": str(collection_name),
+            "vector_name": str(vector_name),
+        }
+
+        query_params = {}
+        if wait is not None:
+            query_params["wait"] = str(wait).lower()
+        if ordering is not None:
+            query_params["ordering"] = str(ordering)
+        if timeout is not None:
+            query_params["timeout"] = str(timeout)
+
+        headers = {}
+        return self.api_client.request(
+            type_=m.InlineResponse2007,
+            method="DELETE",
+            url="/collections/{collection_name}/vectors/{vector_name}",
             headers=headers if headers else None,
             path_params=path_params,
             params=query_params,
@@ -142,7 +215,7 @@ class _CollectionsApi:
 
         headers = {}
         return self.api_client.request(
-            type_=m.InlineResponse2004,
+            type_=m.InlineResponse2006,
             method="GET",
             url="/collections/{collection_name}",
             headers=headers if headers else None,
@@ -157,10 +230,39 @@ class _CollectionsApi:
         """
         headers = {}
         return self.api_client.request(
-            type_=m.InlineResponse2003,
+            type_=m.InlineResponse2005,
             method="GET",
             url="/collections",
             headers=headers if headers else None,
+        )
+
+    def _build_for_get_optimizations(
+        self,
+        collection_name: str,
+        _with: str = None,
+        completed_limit: int = None,
+    ):
+        """
+        Get progress of ongoing and completed optimizations for a collection
+        """
+        path_params = {
+            "collection_name": str(collection_name),
+        }
+
+        query_params = {}
+        if _with is not None:
+            query_params["with"] = str(_with)
+        if completed_limit is not None:
+            query_params["completed_limit"] = str(completed_limit)
+
+        headers = {}
+        return self.api_client.request(
+            type_=m.InlineResponse20010,
+            method="GET",
+            url="/collections/{collection_name}/optimizations",
+            headers=headers if headers else None,
+            path_params=path_params,
+            params=query_params,
         )
 
     def _build_for_update_collection(
@@ -185,7 +287,7 @@ class _CollectionsApi:
         if "Content-Type" not in headers:
             headers["Content-Type"] = "application/json"
         return self.api_client.request(
-            type_=m.InlineResponse200,
+            type_=m.InlineResponse2001,
             method="PATCH",
             url="/collections/{collection_name}",
             headers=headers if headers else None,
@@ -199,7 +301,7 @@ class AsyncCollectionsApi(_CollectionsApi):
     async def collection_exists(
         self,
         collection_name: str,
-    ) -> m.InlineResponse2006:
+    ) -> m.InlineResponse2008:
         """
         Returns \"true\" if the given collection name exists, and \"false\" otherwise
         """
@@ -212,7 +314,7 @@ class AsyncCollectionsApi(_CollectionsApi):
         collection_name: str,
         timeout: int = None,
         create_collection: m.CreateCollection = None,
-    ) -> m.InlineResponse200:
+    ) -> m.InlineResponse2001:
         """
         Create new collection with given parameters
         """
@@ -222,11 +324,32 @@ class AsyncCollectionsApi(_CollectionsApi):
             create_collection=create_collection,
         )
 
+    async def create_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        wait: bool = None,
+        ordering: WriteOrdering = None,
+        timeout: int = None,
+        vector_name_config: m.VectorNameConfig = None,
+    ) -> m.InlineResponse2007:
+        """
+        Create a new named vector on an existing collection
+        """
+        return await self._build_for_create_vector_name(
+            collection_name=collection_name,
+            vector_name=vector_name,
+            wait=wait,
+            ordering=ordering,
+            timeout=timeout,
+            vector_name_config=vector_name_config,
+        )
+
     async def delete_collection(
         self,
         collection_name: str,
         timeout: int = None,
-    ) -> m.InlineResponse200:
+    ) -> m.InlineResponse2001:
         """
         Drop collection and all associated data
         """
@@ -235,10 +358,29 @@ class AsyncCollectionsApi(_CollectionsApi):
             timeout=timeout,
         )
 
+    async def delete_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        wait: bool = None,
+        ordering: WriteOrdering = None,
+        timeout: int = None,
+    ) -> m.InlineResponse2007:
+        """
+        Delete a named vector from a collection
+        """
+        return await self._build_for_delete_vector_name(
+            collection_name=collection_name,
+            vector_name=vector_name,
+            wait=wait,
+            ordering=ordering,
+            timeout=timeout,
+        )
+
     async def get_collection(
         self,
         collection_name: str,
-    ) -> m.InlineResponse2004:
+    ) -> m.InlineResponse2006:
         """
         Get detailed information about specified existing collection
         """
@@ -248,18 +390,33 @@ class AsyncCollectionsApi(_CollectionsApi):
 
     async def get_collections(
         self,
-    ) -> m.InlineResponse2003:
+    ) -> m.InlineResponse2005:
         """
         Get list name of all existing collections
         """
         return await self._build_for_get_collections()
+
+    async def get_optimizations(
+        self,
+        collection_name: str,
+        _with: str = None,
+        completed_limit: int = None,
+    ) -> m.InlineResponse20010:
+        """
+        Get progress of ongoing and completed optimizations for a collection
+        """
+        return await self._build_for_get_optimizations(
+            collection_name=collection_name,
+            _with=_with,
+            completed_limit=completed_limit,
+        )
 
     async def update_collection(
         self,
         collection_name: str,
         timeout: int = None,
         update_collection: m.UpdateCollection = None,
-    ) -> m.InlineResponse200:
+    ) -> m.InlineResponse2001:
         """
         Update parameters of the existing collection
         """
@@ -274,7 +431,7 @@ class SyncCollectionsApi(_CollectionsApi):
     def collection_exists(
         self,
         collection_name: str,
-    ) -> m.InlineResponse2006:
+    ) -> m.InlineResponse2008:
         """
         Returns \"true\" if the given collection name exists, and \"false\" otherwise
         """
@@ -287,7 +444,7 @@ class SyncCollectionsApi(_CollectionsApi):
         collection_name: str,
         timeout: int = None,
         create_collection: m.CreateCollection = None,
-    ) -> m.InlineResponse200:
+    ) -> m.InlineResponse2001:
         """
         Create new collection with given parameters
         """
@@ -297,11 +454,32 @@ class SyncCollectionsApi(_CollectionsApi):
             create_collection=create_collection,
         )
 
+    def create_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        wait: bool = None,
+        ordering: WriteOrdering = None,
+        timeout: int = None,
+        vector_name_config: m.VectorNameConfig = None,
+    ) -> m.InlineResponse2007:
+        """
+        Create a new named vector on an existing collection
+        """
+        return self._build_for_create_vector_name(
+            collection_name=collection_name,
+            vector_name=vector_name,
+            wait=wait,
+            ordering=ordering,
+            timeout=timeout,
+            vector_name_config=vector_name_config,
+        )
+
     def delete_collection(
         self,
         collection_name: str,
         timeout: int = None,
-    ) -> m.InlineResponse200:
+    ) -> m.InlineResponse2001:
         """
         Drop collection and all associated data
         """
@@ -310,10 +488,29 @@ class SyncCollectionsApi(_CollectionsApi):
             timeout=timeout,
         )
 
+    def delete_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        wait: bool = None,
+        ordering: WriteOrdering = None,
+        timeout: int = None,
+    ) -> m.InlineResponse2007:
+        """
+        Delete a named vector from a collection
+        """
+        return self._build_for_delete_vector_name(
+            collection_name=collection_name,
+            vector_name=vector_name,
+            wait=wait,
+            ordering=ordering,
+            timeout=timeout,
+        )
+
     def get_collection(
         self,
         collection_name: str,
-    ) -> m.InlineResponse2004:
+    ) -> m.InlineResponse2006:
         """
         Get detailed information about specified existing collection
         """
@@ -323,18 +520,33 @@ class SyncCollectionsApi(_CollectionsApi):
 
     def get_collections(
         self,
-    ) -> m.InlineResponse2003:
+    ) -> m.InlineResponse2005:
         """
         Get list name of all existing collections
         """
         return self._build_for_get_collections()
+
+    def get_optimizations(
+        self,
+        collection_name: str,
+        _with: str = None,
+        completed_limit: int = None,
+    ) -> m.InlineResponse20010:
+        """
+        Get progress of ongoing and completed optimizations for a collection
+        """
+        return self._build_for_get_optimizations(
+            collection_name=collection_name,
+            _with=_with,
+            completed_limit=completed_limit,
+        )
 
     def update_collection(
         self,
         collection_name: str,
         timeout: int = None,
         update_collection: m.UpdateCollection = None,
-    ) -> m.InlineResponse200:
+    ) -> m.InlineResponse2001:
         """
         Update parameters of the existing collection
         """

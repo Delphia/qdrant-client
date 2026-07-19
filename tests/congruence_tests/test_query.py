@@ -413,6 +413,36 @@ class TestSimpleSearcher:
             limit=10,
         )
 
+    def dense_query_rrf_score_threshold(self, client: QdrantBase) -> list[models.ScoredPoint]:
+        return client.query_points(
+            collection_name=COLLECTION_NAME,
+            prefetch=[
+                models.Prefetch(
+                    query=self.dense_vector_query_text,
+                    using="text",
+                )
+            ],
+            query=models.RrfQuery(rrf=models.Rrf(k=1)),
+            with_payload=True,
+            limit=10,
+            score_threshold=0.25,  # should return 3 results: 1.0, 0.5, 0.3(3)
+        ).points
+
+    def dense_query_formula_score_threshold(self, client: QdrantBase) -> list[models.ScoredPoint]:
+        return client.query_points(
+            collection_name=COLLECTION_NAME,
+            prefetch=[
+                models.Prefetch(
+                    query=self.dense_vector_query_text,
+                    using="text",
+                )
+            ],
+            query=models.FormulaQuery(formula=models.MultExpression(mult=["$score", 1.0])),
+            with_payload=True,
+            limit=10,
+            score_threshold=1.0,
+        ).points
+
     def deep_dense_queries_rrf(self, client: QdrantBase) -> models.QueryResponse:
         return client.query_points(
             collection_name=COLLECTION_NAME,
@@ -923,6 +953,30 @@ class TestSimpleSearcher:
             limit=10,
         )
 
+    def relevance_feedback_query(
+            self, client: QdrantBase
+    ) -> models.QueryResponse:
+        return client.query_points(
+            collection_name=COLLECTION_NAME,
+            query=models.RelevanceFeedbackQuery(
+                relevance_feedback=models.RelevanceFeedbackInput(
+                    target=self.dense_vector_query_text,
+                    feedback=[
+                        models.FeedbackItem(example=1, score=0.9),
+                        models.FeedbackItem(example=2, score=0.8),
+                        models.FeedbackItem(example=3, score=0.7),
+                        models.FeedbackItem(example=4, score=0.6),
+                    ],
+                    strategy=models.NaiveFeedbackStrategy(
+                        naive=models.NaiveFeedbackStrategyParams(a=0.5, b=1.0, c=0.7)
+                    )
+                )
+            ),
+            using="text",
+            with_payload=True,
+            limit=10,
+        )
+
 
 def group_by_keys():
     return ["maybe", "rand_digit", "two_words", "city.name", "maybe_null", "id"]
@@ -1297,9 +1351,14 @@ def test_dense_query_fusion():
     compare_clients_results(
         local_client, http_client, grpc_client, searcher.deep_dense_queries_dbsf
     )
-
     compare_clients_results(
         local_client, http_client, grpc_client, searcher.dense_query_parametrized_rrf
+    )
+    compare_clients_results(
+        local_client, http_client, grpc_client, searcher.dense_query_rrf_score_threshold
+    )
+    compare_clients_results(
+        local_client, http_client, grpc_client, searcher.dense_query_formula_score_threshold
     )
 
 
@@ -1839,4 +1898,16 @@ def test_mmr_queries():
         http_client,
         grpc_client,
         searcher.mmr_query_parametrized_euclid_score_threshold,
+    )
+
+
+def test_relevance_feedback_queries():
+    fixture_points = generate_fixtures()
+
+    searcher = TestSimpleSearcher()
+
+    local_client, http_client, grpc_client = init_clients(fixture_points)
+
+    compare_clients_results(
+        local_client, http_client, grpc_client, searcher.relevance_feedback_query
     )

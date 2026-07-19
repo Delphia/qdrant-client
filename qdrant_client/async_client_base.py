@@ -282,6 +282,20 @@ class AsyncQdrantBase:
     ) -> types.UpdateResult:
         raise NotImplementedError()
 
+    async def create_vector_name(
+        self,
+        collection_name: str,
+        vector_name: str,
+        vector_name_config: types.VectorNameConfig,
+        **kwargs: Any,
+    ) -> types.UpdateResult:
+        raise NotImplementedError()
+
+    async def delete_vector_name(
+        self, collection_name: str, vector_name: str, **kwargs: Any
+    ) -> types.UpdateResult:
+        raise NotImplementedError()
+
     async def list_snapshots(
         self, collection_name: str, **kwargs: Any
     ) -> list[types.SnapshotDescription]:
@@ -377,4 +391,17 @@ class AsyncQdrantBase:
         raise NotImplementedError()
 
     async def remove_peer(self, peer_id: int, **kwargs: Any) -> bool:
+        raise NotImplementedError()
+
+    async def get_optimizations(
+        self, collection_name: str, **kwargs: Any
+    ) -> types.OptimizationsResponse:
+        raise NotImplementedError()
+
+    async def list_shard_keys(
+        self, collection_name: str, **kwargs: Any
+    ) -> types.ShardKeysResponse:
+        raise NotImplementedError()
+
+    async def cluster_telemetry(self, **kwargs: Any) -> types.DistributedTelemetryData:
         raise NotImplementedError()

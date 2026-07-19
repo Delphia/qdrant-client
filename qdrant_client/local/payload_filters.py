@@ -20,7 +20,7 @@ def get_value_counts(values: list[Any]) -> list[int]:
         for value in values:
             if value is None:
                 counts.append(0)
-            elif hasattr(value, "__len__") and not isinstance(value, str):
+            elif isinstance(value, list):
                 counts.append(len(value))
             else:
                 counts.append(1)
@@ -68,13 +68,11 @@ def check_geo_bounding_box(condition: models.GeoBoundingBox, values: Any) -> boo
 
         # handle anti-meridian crossing case
         if condition.top_left.lon > condition.bottom_right.lon:
-            longitude_condition = (
-                condition.top_left.lon <= lon <= 180 or -180 <= lon <= condition.bottom_right.lon
-            )
+            longitude_condition = lon > condition.top_left.lon or lon < condition.bottom_right.lon
         else:
-            longitude_condition = condition.top_left.lon <= lon <= condition.bottom_right.lon
+            longitude_condition = condition.top_left.lon < lon < condition.bottom_right.lon
 
-        latitude_condition = condition.top_left.lat >= lat >= condition.bottom_right.lat
+        latitude_condition = condition.top_left.lat > lat > condition.bottom_right.lat
 
         return longitude_condition and latitude_condition
 
@@ -135,16 +133,16 @@ def check_datetime_range(condition: models.DatetimeRange, value: Any) -> bool:
     if dt is None:
         return False
 
-    condition.lt = make_condition_tz_aware(condition.lt)
-    condition.lte = make_condition_tz_aware(condition.lte)
-    condition.gt = make_condition_tz_aware(condition.gt)
-    condition.gte = make_condition_tz_aware(condition.gte)
+    lt = make_condition_tz_aware(condition.lt)
+    lte = make_condition_tz_aware(condition.lte)
+    gt = make_condition_tz_aware(condition.gt)
+    gte = make_condition_tz_aware(condition.gte)
 
     return (
-        (condition.lt is None or dt < condition.lt)
-        and (condition.lte is None or dt <= condition.lte)
-        and (condition.gt is None or dt > condition.gt)
-        and (condition.gte is None or dt >= condition.gte)
+        (lt is None or dt < lt)
+        and (lte is None or dt <= lte)
+        and (gt is None or dt > gt)
+        and (gte is None or dt >= gte)
     )
 
 
