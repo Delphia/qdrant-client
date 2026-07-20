@@ -69,6 +69,16 @@ class PointsStub(object):
                 request_serializer=points__pb2.DeleteFieldIndexCollection.SerializeToString,
                 response_deserializer=points__pb2.PointsOperationResponse.FromString,
                 )
+        self.CreateVectorName = channel.unary_unary(
+                '/qdrant.Points/CreateVectorName',
+                request_serializer=points__pb2.CreateVectorNameRequest.SerializeToString,
+                response_deserializer=points__pb2.PointsOperationResponse.FromString,
+                )
+        self.DeleteVectorName = channel.unary_unary(
+                '/qdrant.Points/DeleteVectorName',
+                request_serializer=points__pb2.DeleteVectorNameRequest.SerializeToString,
+                response_deserializer=points__pb2.PointsOperationResponse.FromString,
+                )
         self.Search = channel.unary_unary(
                 '/qdrant.Points/Search',
                 request_serializer=points__pb2.SearchPoints.SerializeToString,
@@ -160,238 +170,243 @@ class PointsServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Upsert(self, request, context):
-        """
-        Perform insert + updates on points. If a point with a given ID already exists - it will be overwritten.
+        """Perform insert + updates on points.
+        If a point with a given ID already exists - it will be overwritten.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Delete(self, request, context):
-        """
-        Delete points
+        """Delete points
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Get(self, request, context):
-        """
-        Retrieve points
+        """Retrieve points
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def UpdateVectors(self, request, context):
-        """
-        Update named vectors for point
+        """Update named vectors for point
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def DeleteVectors(self, request, context):
-        """
-        Delete named vectors for points
+        """Delete named vectors for points
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SetPayload(self, request, context):
-        """
-        Set payload for points
+        """Set payload for points
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def OverwritePayload(self, request, context):
-        """
-        Overwrite payload for points
+        """Overwrite payload for points
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def DeletePayload(self, request, context):
-        """
-        Delete specified key payload for points
+        """Delete specified key payload for points
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def ClearPayload(self, request, context):
-        """
-        Remove all payload for specified points
+        """Remove all payload for specified points
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def CreateFieldIndex(self, request, context):
-        """
-        Create index for field in collection
+        """Create index for field in collection
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def DeleteFieldIndex(self, request, context):
+        """Delete field index for collection
         """
-        Delete field index for collection
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateVectorName(self, request, context):
+        """Create a new named vector on the collection
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DeleteVectorName(self, request, context):
+        """Delete a named vector from the collection
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Search(self, request, context):
-        """
-        Retrieve closest points based on vector similarity and given filtering conditions
+        """Retrieve closest points based on vector similarity and given filtering
+        conditions
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SearchBatch(self, request, context):
-        """
-        Retrieve closest points based on vector similarity and given filtering conditions
+        """Retrieve closest points based on vector similarity and given filtering
+        conditions
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SearchGroups(self, request, context):
-        """
-        Retrieve closest points based on vector similarity and given filtering conditions, grouped by a given field
+        """Retrieve closest points based on vector similarity and given filtering
+        conditions, grouped by a given field
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Scroll(self, request, context):
-        """
-        Iterate over all or filtered points
+        """Iterate over all or filtered points
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Recommend(self, request, context):
-        """
-        Look for the points which are closer to stored positive examples and at the same time further to negative examples.
+        """Look for the points which are closer to stored positive examples and at
+        the same time further to negative examples.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def RecommendBatch(self, request, context):
-        """
-        Look for the points which are closer to stored positive examples and at the same time further to negative examples.
+        """Look for the points which are closer to stored positive examples and at
+        the same time further to negative examples.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def RecommendGroups(self, request, context):
-        """
-        Look for the points which are closer to stored positive examples and at the same time further to negative examples, grouped by a given field
+        """Look for the points which are closer to stored positive examples and at
+        the same time further to negative examples, grouped by a given field
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Discover(self, request, context):
-        """
-        Use context and a target to find the most similar points to the target, constrained by the context.
+        """Use context and a target to find the most similar points to the target,
+        constrained by the context.
 
-        When using only the context (without a target), a special search - called context search - is performed where
-        pairs of points are used to generate a loss that guides the search towards the zone where
-        most positive examples overlap. This means that the score minimizes the scenario of
-        finding a point closer to a negative than to a positive part of a pair.
+        When using only the context (without a target), a special search - called
+        context search - is performed where pairs of points are used to generate a
+        loss that guides the search towards the zone where most positive examples
+        overlap. This means that the score minimizes the scenario of finding a
+        point closer to a negative than to a positive part of a pair.
 
-        Since the score of a context relates to loss, the maximum score a point can get is 0.0,
-        and it becomes normal that many points can have a score of 0.0.
+        Since the score of a context relates to loss, the maximum score a point
+        can get is 0.0, and it becomes normal that many points can have a score of
+        0.0.
 
-        When using target (with or without context), the score behaves a little different: The 
-        integer part of the score represents the rank with respect to the context, while the
-        decimal part of the score relates to the distance to the target. The context part of the score for 
-        each pair is calculated +1 if the point is closer to a positive than to a negative part of a pair, 
-        and -1 otherwise.
+        When using target (with or without context), the score behaves a little
+        different: The integer part of the score represents the rank with respect
+        to the context, while the decimal part of the score relates to the
+        distance to the target. The context part of the score for each pair is
+        calculated +1 if the point is closer to a positive than to a negative part
+        of a pair, and -1 otherwise.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def DiscoverBatch(self, request, context):
-        """
-        Batch request points based on { positive, negative } pairs of examples, and/or a target
+        """Batch request points based on { positive, negative } pairs of examples, and/or a target
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Count(self, request, context):
-        """
-        Count points in collection with given filtering conditions
+        """Count points in collection with given filtering conditions
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def UpdateBatch(self, request, context):
-        """
-        Perform multiple update operations in one request
+        """Perform multiple update operations in one request
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Query(self, request, context):
-        """
-        Universally query points. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries.
+        """Universally query points.
+        This endpoint covers all capabilities of search, recommend, discover, filters.
+        But also enables hybrid and multi-stage queries.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def QueryBatch(self, request, context):
-        """
-        Universally query points in a batch fashion. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries.
+        """Universally query points in a batch fashion.
+        This endpoint covers all capabilities of search, recommend, discover, filters.
+        But also enables hybrid and multi-stage queries.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def QueryGroups(self, request, context):
-        """
-        Universally query points in a group fashion. This endpoint covers all capabilities of search, recommend, discover, filters. But also enables hybrid and multi-stage queries.
+        """Universally query points in a group fashion.
+        This endpoint covers all capabilities of search, recommend, discover, filters.
+        But also enables hybrid and multi-stage queries.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def Facet(self, request, context):
-        """
-        Perform facet counts. For each value in the field, count the number of points that have this value and match the conditions.
+        """Perform facet counts.
+        For each value in the field, count the number of points that have this
+        value and match the conditions.
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SearchMatrixPairs(self, request, context):
-        """
-        Compute distance matrix for sampled points with a pair based output format
+        """Compute distance matrix for sampled points with a pair based output format
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def SearchMatrixOffsets(self, request, context):
-        """
-        Compute distance matrix for sampled points with an offset based output format
+        """Compute distance matrix for sampled points with an offset based output format
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -453,6 +468,16 @@ def add_PointsServicer_to_server(servicer, server):
             'DeleteFieldIndex': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteFieldIndex,
                     request_deserializer=points__pb2.DeleteFieldIndexCollection.FromString,
+                    response_serializer=points__pb2.PointsOperationResponse.SerializeToString,
+            ),
+            'CreateVectorName': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateVectorName,
+                    request_deserializer=points__pb2.CreateVectorNameRequest.FromString,
+                    response_serializer=points__pb2.PointsOperationResponse.SerializeToString,
+            ),
+            'DeleteVectorName': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteVectorName,
+                    request_deserializer=points__pb2.DeleteVectorNameRequest.FromString,
                     response_serializer=points__pb2.PointsOperationResponse.SerializeToString,
             ),
             'Search': grpc.unary_unary_rpc_method_handler(
@@ -733,6 +758,40 @@ class Points(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/qdrant.Points/DeleteFieldIndex',
             points__pb2.DeleteFieldIndexCollection.SerializeToString,
+            points__pb2.PointsOperationResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CreateVectorName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/qdrant.Points/CreateVectorName',
+            points__pb2.CreateVectorNameRequest.SerializeToString,
+            points__pb2.PointsOperationResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DeleteVectorName(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/qdrant.Points/DeleteVectorName',
+            points__pb2.DeleteVectorNameRequest.SerializeToString,
             points__pb2.PointsOperationResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
